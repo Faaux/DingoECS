@@ -1,25 +1,26 @@
 #pragma once
-#include <vector>
-#include "DiEntityId.h"
 #include "DiFilter.h"
+#include <vector>
 namespace decs
 {
-	class DiSystem
-	{
-		friend class DiWorld;
-	public:
-		DiSystem(DiWorld& world, DiFilter filter);
-		virtual ~DiSystem() = default;
-		DiWorld& GetWorld() const;
-		const std::vector<DiEntityId>& GetEntities() const;
-		virtual void Update(float deltaTime) {};
+    class DiSystem
+    {
+        friend class DiWorld;
+        friend class DiEntity;
 
-	private:
-		void AddEntity(DiEntityId id);
-		void RemoveEntity(DiEntityId id);
+      public:
+        DiSystem(DiWorld &world, DiFilter filter);
+        virtual ~DiSystem() = default;
+        DiWorld &GetWorld() const;
+        std::vector<DiEntity> &GetEntities();
+        virtual void Update(float deltaTime){};
 
-		DiWorld& _world;
-		DiFilter _filter;
-		std::vector<DiEntityId> _entities;
-	};
+      private:
+        void AddEntity(DiEntity entity);
+        void RemoveEntity(DiEntity entity);
+
+        DiWorld &_world;
+        DiFilter _filter;
+        std::vector<DiEntity> _entities;
+    };
 }
